@@ -1,25 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My House</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="welcome-card">
-            <h1>🚀 Welcome!</h1>
-            <p>Your website is up and running.</p>
-            <p>Start editing <code>public/index.html</code> to customize this page.</p>
-            
-            <!-- Reset Countdown Timer -->
-            <div id="resetCountdown" class="countdown-container">
-                <div class="countdown-label">Next Reset:</div>
-                <div id="countdownDisplay" class="countdown-display">00:00:00:00</div>
-            </div>
-        </div>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Container home planner</p>
+      <h1>My House</h1>
+      <p class="intro">Plan a practical shipping container home, estimate build costs, and compare it against buying a house.</p>
     </div>
-    <script src="/countdown.js"></script>
+    <div class="header-actions">
+      <input id="projectName" aria-label="Project name" value="Starter container home">
+      <button id="saveProject" type="button">Save</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="workspace">
+      <div class="toolbar">
+        <div>
+          <h2>Layout Manager</h2>
+          <p>Drag containers onto the site grid. Rotate, duplicate, or remove selected modules.</p>
+        </div>
+        <div class="button-row">
+          <button id="add40" type="button">Add 40 ft</button>
+          <button id="add20" type="button">Add 20 ft</button>
+          <button id="rotateSelected" type="button">Rotate</button>
+          <button id="duplicateSelected" type="button">Duplicate</button>
+          <button id="removeSelected" class="danger" type="button">Remove</button>
+        </div>
+      </div>
+
+      <div class="layout-wrap">
+        <div id="siteGrid" class="site-grid" aria-label="Shipping container layout grid"></div>
+      </div>
+
+      <div class="selected-panel">
+        <div>
+          <span class="label">Selected module</span>
+          <strong id="selectedName">None</strong>
+        </div>
+        <label>
+          Condition
+          <select id="conditionInput">
+            <option value="used">Used</option>
+            <option value="cargo-worthy">Cargo worthy</option>
+            <option value="one-trip">One trip</option>
+          </select>
+        </label>
+        <label>
+          Level
+          <input id="levelInput" type="number" min="1" max="3" value="1">
+        </label>
+        <label class="check">
+          <input id="cutOpeningsInput" type="checkbox">
+          Door/window cuts
+        </label>
+        <label class="check">
+          <input id="reinforceInput" type="checkbox">
+          Structural reinforcement
+        </label>
+        <label class="check">
+          <input id="joineryInput" type="checkbox">
+          Container joining/welding
+        </label>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2>Build Assumptions</h2>
+        <div class="field-grid">
+          <label>Land <input data-path="site.landCost" type="number" min="0" step="1000"></label>
+          <label>Site prep <input data-path="site.sitePrep" type="number" min="0" step="500"></label>
+          <label>Foundation <input data-path="site.foundation" type="number" min="0" step="500"></label>
+          <label>Permits / engineering <input data-path="site.permitEngineering" type="number" min="0" step="500"></label>
+          <label>Electrical <input data-path="systems.electrical" type="number" min="0" step="500"></label>
+          <label>Plumbing <input data-path="systems.plumbing" type="number" min="0" step="500"></label>
+          <label>HVAC <input data-path="systems.hvac" type="number" min="0" step="500"></label>
+          <label>Insulation <input data-path="systems.insulation" type="number" min="0" step="500"></label>
+          <label>Water / sewer <input data-path="systems.waterSewer" type="number" min="0" step="500"></label>
+          <label>Solar / battery <input data-path="systems.solarBattery" type="number" min="0" step="500"></label>
+          <label>Contingency % <input data-path="site.contingencyPercent" type="number" min="0" max="40" step="1"></label>
+        </div>
+      </section>
+
+      <section class="panel totals">
+        <h2>Cost Estimate</h2>
+        <div id="costBreakdown"></div>
+        <div class="grand-total">
+          <span>Projected build</span>
+          <strong id="totalCost">$0</strong>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Buy vs Build</h2>
+        <div class="field-grid">
+          <label>House price <input data-path="houseComparison.purchasePrice" type="number" min="0" step="1000"></label>
+          <label>Down payment % <input data-path="houseComparison.downPaymentPercent" type="number" min="0" max="100" step="1"></label>
+          <label>Closing costs % <input data-path="houseComparison.closingCostPercent" type="number" min="0" max="20" step="0.5"></label>
+          <label>Repair reserve <input data-path="houseComparison.repairReserve" type="number" min="0" step="500"></label>
+        </div>
+        <div id="comparison" class="comparison"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Saved Projects</h2>
+        <div id="saveStatus" class="status">MongoDB saves are enabled on CapRover when <code>mongoDB_URI</code> is set.</div>
+        <div id="savedProjects" class="saved-list"></div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="/app.js"></script>
 </body>
 </html>
